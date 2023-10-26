@@ -1,0 +1,44 @@
+name: Pipeline_BackEnd
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+#      - name: Run ESLint
+#        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Run command on remote server
+        run: |
+          cd /public/dashboard-back
+          git pull origin main
+          docker stop dashboard-back
+          docker rm --force dashboard-back
+          docker rmi dashboard-back-image
+          docker build . -t dashboard-back-image
+          docker run -d -p 4000:4000 --name dashboard-back dashboard-back-image
