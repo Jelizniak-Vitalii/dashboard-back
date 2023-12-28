@@ -9,6 +9,8 @@ import { Logger } from './shared/services';
 import { User, UserRoles } from './modules/users/models';
 import { Role } from './modules/roles/roles.model';
 import { S3Module } from './core/aws/s-3.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -25,13 +27,16 @@ import { S3Module } from './core/aws/s-3.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       models: [User, Role, UserRoles],
+      timezone: '+00:00',
       autoLoadModels: true,
       synchronize: true,
       logging: false,
     }),
     S3Module,
     UsersModule,
+    ProductsModule,
     AuthModule,
+    CategoriesModule,
     SharedModule,
   ],
   controllers: [],

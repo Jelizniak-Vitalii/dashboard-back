@@ -16,11 +16,11 @@ export class UserDto {
 
   @IsEmail()
   @IsNotEmpty()
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'Email must be in string format' })
   readonly email: string;
 
   @ValidateIf((object, value) => value)
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'Password must be in string format' })
   @Length(4, 8, { message: 'Password must be between 4 and 8 characters' })
   @IsOptional()
   readonly password: string;
@@ -34,7 +34,7 @@ export class UserDto {
   readonly last_name: string;
 
   @IsOptional()
-  @IsString({ message: 'Must be string' })
+  @IsString({ message: 'Phone must be in string format' })
   readonly phone: string;
 
   @IsOptional()

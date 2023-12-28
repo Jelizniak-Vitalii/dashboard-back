@@ -24,7 +24,7 @@ export class UsersService {
     // await user.$set('roles', [role.id]);
     // user.roles = [role];
 
-    this.logger.log(`UsersService.createUser: ${JSON.stringify(user)}`);
+    this.logger.log(`UsersService.createUser: userId: ${user.id}`);
     return user;
   }
 
@@ -34,7 +34,7 @@ export class UsersService {
       include: { all: true },
     });
 
-    this.logger.log(`UsersService.getUserByEmail: ${JSON.stringify(user)}`);
+    this.logger.log(`UsersService.getUserByEmail, userId: ${user.id}`);
     return user;
   }
 
@@ -43,7 +43,7 @@ export class UsersService {
       include: { all: true },
       attributes: { exclude: ['password'] },
     });
-    this.logger.log(`UsersService.getAllUsers: ${JSON.stringify(users)}`);
+    this.logger.log(`UsersService.getAllUsers`);
 
     return users;
   }
@@ -56,14 +56,14 @@ export class UsersService {
     });
 
     if (!user) {
-      this.logger.log(`UsersService.getUserById: User with id ${id} not found`);
+      this.logger.log(`UsersService.getUserById, User with id ${id} not found`);
       throw new HttpException(
         `User with id ${id} not found`,
         HttpStatus.NOT_FOUND,
       );
     }
 
-    this.logger.log(`UsersService.getUserById: ${JSON.stringify(user)}`);
+    this.logger.log(`UsersService.getUserById, userId: ${user.id}`);
 
     return user;
   }
@@ -97,7 +97,7 @@ export class UsersService {
     const user = await this.userRepository.destroy({
       where: { id },
     });
-    this.logger.log(`UsersService.deleteUser: ${JSON.stringify(user)}`);
+    this.logger.log(`UsersService.deleteUser, userId: ${id}`);
 
     return user;
   }
